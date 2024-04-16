@@ -43,7 +43,7 @@ class lin_stack
 	public:
 		// Constructors
 		lin_stack(byte Ch, int rx_pin, int tx_pin); // Constructor for Master Node
-		lin_stack(byte Ch, int_rx_pin, int_tx_pin, byte ident); // Constructor for Slave Node
+		lin_stack(byte Ch, int rx_pin, int tx_pin, byte ident); // Constructor for Slave Node
 		
 		// Methods
 		

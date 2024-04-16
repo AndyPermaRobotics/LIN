@@ -50,14 +50,20 @@
 */
 
 // CONSTRUCTORS
-lin_stack::lin_stack(byte Ch){
+lin_stack::lin_stack(byte Ch, int rx_pin, int tx_pin){
 	sleep_config(Ch); // Configurating Sleep pin for transceiver
 	ch = Ch;
+	this->rx_pin = rx_pin;
+	this->tx_pin = tx_pin;
 }
 
-lin_stack::lin_stack(byte Ch, byte ident){
+lin_stack::lin_stack(byte Ch, int rx_pin, int tx_pin, byte ident){
 	sleep_config(Ch); // Configuration of Sleep pin for transceiver
 	identByte = ident; // saving idet to private variable
+	
+	this->rx_pin = rx_pin;
+	this->tx_pin = tx_pin;
+
 	sleep(1); // Transceiver is always in Normal Mode
 }
 
@@ -77,14 +83,14 @@ int lin_stack::write(byte ident, byte data[], byte data_size){
 	serial_pause(13);
 	// Send data via Serial interface
 	if(ch==1){ // For LIN1 or Serial1
-		Serial1.begin(bound_rate); // config Serial
+		Serial1.begin(bound_rate,SERIAL_8N1,rx_pin, tx_pin); // config Serial
 		Serial1.write(0x55); // write Synch Byte to serial
 		Serial1.write(ident); // write Identification Byte to serial
 		for(int i=0;i<data_size;i++) Serial1.write(data[i]); // write data to serial
 		Serial1.write(checksum); // write Checksum Byte to serial
 		Serial1.end(); // clear Serial config
 	}else if(ch==2){ // For LIN2 or Serial2
-		Serial2.begin(bound_rate); // config Serial
+		Serial2.begin(bound_rate,SERIAL_8N1,rx_pin, tx_pin); // config Serial
 		Serial2.write(0x55); // write Synch Byte to serial
 		Serial2.write(ident); // write Identification Byte to serialv
 		for(int i=0;i<data_size;i++) Serial2.write(data[i]); // write data to serial
@@ -164,10 +170,10 @@ int lin_stack::writeStream(byte data[], byte data_size){
 // Read LIN traffic and then proces it.
 int lin_stack::setSerial(){ // Only needed when receiving signals
 	if(ch==1){ // For LIN1 (Channel 1)
-		Serial1.begin(bound_rate); // Configure Serial1
+		Serial1.begin(bound_rate,SERIAL_8N1,rx_pin, tx_pin); // Configure Serial1
 		PIOA->PIO_PUER = PIO_PA10; // We need software Pull-Up because there is no hardware Pull-Up resistor
 	} else if(ch==2){ // For LIN2 (Channel 2)
-		Serial2.begin(bound_rate); // Configure Serial1
+		Serial2.begin(bound_rate,,SERIAL_8N1,rx_pin, tx_pin); // Configure Serial1
 		PIOA->PIO_PUER = PIO_PA12; // We need software Pull-Up because there is no hardware Pull-Up resistor
 	}
 }

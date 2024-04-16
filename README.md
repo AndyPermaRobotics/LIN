@@ -1,3 +1,7 @@
+## Our changes to the original library
+
+- added ability to configure custom TX and RX pins for the Serial port
+
 ## LIN Library
 
 Library and examples for LIN [(Local Interconnect Network)](https://en.wikipedia.org/wiki/Local_Interconnect_Network) on Arduino. Developed for the Macchina M2.  Can be modified for any Arduino board with UART available and any LIN slave.

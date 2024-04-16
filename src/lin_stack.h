@@ -42,8 +42,8 @@ class lin_stack
 {
 	public:
 		// Constructors
-		lin_stack(byte Ch); // Constructor for Master Node
-		lin_stack(byte Ch, byte ident); // Constructor for Slave Node
+		lin_stack(byte Ch, int rx_pin, int tx_pin); // Constructor for Master Node
+		lin_stack(byte Ch, int_rx_pin, int_tx_pin, byte ident); // Constructor for Slave Node
 		
 		// Methods
 		
@@ -62,6 +62,9 @@ class lin_stack
 		const unsigned long bound_rate = 19200; // 10417 is best for LIN Interface, most device should work
 		const unsigned int period = 52; // in microseconds, 1s/10417
 		byte ch = 0; // which channel should be used
+		int rx_pin = 0; // RX pin
+		int tx_pin = 0; // TX pin
+		
 		byte identByte; // user defined Identification Byte
 		int sleep(byte sleep_state); // method for controlling transceiver modes (0 - sleep, 1 - normal)
 		int sleep_config(byte serial_No); // configuration of sleep pins
